@@ -28,7 +28,7 @@ public class TestImageDataStore {
 		properties.setProperty(ImageDataStore.DATASTORE_USERNAME, "testuser");
 		properties.setProperty(ImageDataStore.DATASTORE_PASSWORD, "testuser");
 		properties.setProperty(ImageDataStore.DATASTORE_DRIVER, "org.h2.Driver");
-		properties.setProperty(ImageDataStore.DATASTORE_NAME, "testdb");
+		properties.setProperty(ImageDataStore.DATASTORE_NAME, "");
 
 		if (this.imageStore != null) this.imageStore.dispose();
 		this.imageStore = new JDBCImageDataStore(properties);
