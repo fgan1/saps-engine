@@ -29,16 +29,30 @@ public class TestImageDataStore {
 		properties.setProperty(ImageDataStore.DATASTORE_PASSWORD, "testuser");
 		properties.setProperty(ImageDataStore.DATASTORE_DRIVER, "org.h2.Driver");
 		properties.setProperty(ImageDataStore.DATASTORE_NAME, "testdb");
-		
+
+		if (this.imageStore != null) this.imageStore.dispose();
 		this.imageStore = new JDBCImageDataStore(properties);
 		
-		this.taskDefault = new ImageTask("task-default", "LT5", "region-53", new Date(), "link-default",
-				ImageTaskState.CREATED, ImageTask.NON_EXISTENT_DATA, 0,
-				ImageTask.NON_EXISTENT_DATA, ImageTask.NON_EXISTENT_DATA,
-				ImageTask.NON_EXISTENT_DATA, ImageTask.NON_EXISTENT_DATA,
-				ImageTask.NON_EXISTENT_DATA, ImageTask.NON_EXISTENT_DATA, new Timestamp(
-						new java.util.Date().getTime()), new Timestamp(
-						new java.util.Date().getTime()), ImageTask.AVAILABLE, "");
+		this.taskDefault = new ImageTask(
+				"task-default",
+				"LT5",
+				"region-53",
+				new Date(),
+				"link-default",
+				ImageTaskState.CREATED,
+				ImageTask.NON_EXISTENT_DATA,
+				0,
+				ImageTask.NON_EXISTENT_DATA,
+				ImageTask.NON_EXISTENT_DATA,
+				ImageTask.NON_EXISTENT_DATA,
+				ImageTask.NON_EXISTENT_DATA,
+				ImageTask.NON_EXISTENT_DATA,
+				ImageTask.NON_EXISTENT_DATA,
+				new Timestamp(new java.util.Date().getTime()),
+				new Timestamp(new java.util.Date().getTime()),
+				ImageTask.AVAILABLE,
+				""
+		);
 	}
 
 	@After
@@ -78,13 +92,14 @@ public class TestImageDataStore {
 		this.imageStore.addImageTask(this.taskDefault);
 		
 		List<ImageTask> tasks = this.imageStore.getAllTasks();
-		ImageTask imageTask = tasks.get(0);
 		Assert.assertEquals(1, tasks.size());
+		ImageTask imageTask = tasks.get(0);
 		Assert.assertEquals(imageTask.getStatus(), ImageTask.AVAILABLE);
 		
 		this.imageStore.updateTaskStatus(this.taskDefault.getTaskId(), ImageTask.UNAVAILABLE);
 		
 		tasks = this.imageStore.getAllTasks();
+		Assert.assertEquals(1, tasks.size());
 		imageTask = tasks.get(0);
 		Assert.assertEquals(imageTask.getStatus(), ImageTask.UNAVAILABLE);
 	}
